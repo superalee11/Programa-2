@@ -2,11 +2,19 @@
 #include <stdlib.h>
 #include <math.h>
 
+void mostrarMenu() {
+    printf("--------- Métodos Numéricos ----------\n");
+    printf("------------ Integrantes -------------\n");
+    printf("Mariana Alejandra López Ramírez\n");
+    printf("Andrea Estephanie Fierro Ibáñez\n");
+    printf("Jessica Esmeralda Alcantar Hernández\n");
+}
 
 void leermatriz(int n, double matriz[n][n], double vector[n]) {
     printf("Introduce los coeficientes de la matriz:\n");
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
+    int i, j;
+    for (i=0; i<n; i++) {
+        for (j = 0; j < n; j++) {
             printf("Elemento [%d][%d]: ", i + 1, j + 1);
             if (scanf("%lf", &matriz[i][j]) != 1) {
                 printf("Entrada inválida.\n");
@@ -23,8 +31,9 @@ void leermatriz(int n, double matriz[n][n], double vector[n]) {
 
 void mostrarmatriz(int n, double matriz[n][n], double vector[n]) {
     printf("\nMatriz:\n");
-    for (int i=0; i<n; i++) {
-        for (int j=0; j<n; j++) {
+    int i, j;
+    for ( i=0; i<n; i++) {
+        for (j=0; j<n; j++) {
             printf("%8.3lf ", matriz[i][j]);
         }
         //mostrarvector
@@ -49,9 +58,10 @@ void corregircoeficiente(int n, double matriz[n][n], double vector[n]) {
 }
 
 int DD(int n, double matriz[n][n]) {
-    for (int i=0; i<n; i++) {
+	int i, j;
+    for (i=0; i<n; i++) {
         double suma=0;
-        for (int j=0; j<n; j++) {
+        for(j=0; j<n; j++) {
             if (i != j){
                 suma += fabs(matriz[i][j]);
             }
@@ -65,18 +75,19 @@ int DD(int n, double matriz[n][n]) {
 
 double determinante(int n, double matriz[n][n]){
     double copiamatriz[n][n];
-    for (int i=0; i<n; i++) {
-        for (int j=0; j<n; j++) {
+    int i, j,k;
+    for (i=0; i<n; i++) {
+        for (j=0; j<n; j++) {
             copiamatriz[i][j]=matriz[i][j];
         }
     }
 
     double det=1;
-    for(int i=0; i<n; i++) {
-        for(int k=i+1; k<n; k++) {
+    for(i=0; i<n; i++) {
+        for(k=i+1; k<n; k++) {
             if(copiamatriz[i][i]==0)return 0; //si el pivote es cero, determinante=0
             double factor=copiamatriz[k][i]/copiamatriz[i][i];
-            for(int j=i; j<n; j++){
+            for(j=i; j<n; j++){
                 copiamatriz[k][j]-=factor*copiamatriz[i][j];
             }
         }
@@ -87,23 +98,27 @@ double determinante(int n, double matriz[n][n]){
 
 void resolver(int n, double matriz[n][n], double vector[n]) {
     double soluciones[n];
+    int i, j;
     
-    for (int i=n-1; i>=0; i--) {
+    for (i=n-1; i>=0; i--) {
         soluciones[i]=vector[i];
-        for (int j=i+1; j<n; j++) {
+        for (j=i+1; j<n; j++) {
             soluciones[i]-=matriz[i][j]*soluciones[j];
         }
         soluciones[i]/=matriz[i][i];
     }
     
     printf("\nSolucion del sistema:\n");
-    for (int i=0; i<n; i++) {
+    for (i=0; i<n; i++) {
         printf("x[%d]=%lf\n", i+1, soluciones[i]);
     }
 }
 
 int main(){
+	
     int n, corregir;
+    
+    mostrarMenu();
 
     printf("Dimension de la matriz cuadrada: ");
     scanf("%d", &n);
@@ -114,7 +129,7 @@ int main(){
 
     do {
         mostrarmatriz(n, matriz, vector);
-        printf("\nEs correcta la matriz? ([SI=1], [NO=0]): ");
+        printf("\nEs correcta la matriz? [SI-1], [NO-0]: ");
         scanf("%d", &corregir);
 
         if(!corregir){
